@@ -28,12 +28,12 @@ namespace TrashCollector.Models
         public string PickupDay { get; set; }
 
         [Display(Name = "Extra Pickup")]
-        public DateTime ExtraPickup { get; set; }
+        public DateTime? ExtraPickup { get; set; }
 
         [Display(Name = "Suspended Service Start Date")]
-        public DateTime SuspendServiceStart { get; set; }
+        public DateTime? SuspendServiceStart { get; set; }
 
         [Display(Name = "Suspended Service End Date")]
-        public DateTime SuspendServiceEnd { get; set; }
+        public DateTime? SuspendServiceEnd { get; set; }
     }
 }
