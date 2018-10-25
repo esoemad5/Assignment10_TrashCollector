@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -52,6 +53,7 @@ namespace TrashCollector.Controllers
             {
                 //customer.SuspendServiceEnd = null;
                 //customer.SuspendServiceStart = null;
+                customer.UserID = User.Identity.GetUserId();
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -1,0 +1,1 @@
+string currentUserID = User.Identity.GetUserId(); //Gets the id for the user that is currently logged in. Works as if it were a global property
