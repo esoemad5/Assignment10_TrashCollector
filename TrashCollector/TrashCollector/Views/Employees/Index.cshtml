@@ -63,7 +63,16 @@
                 @Html.DisplayFor(modelItem => item.PickupDay)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ExtraPickup)
+                @if (item.ExtraPickup.HasValue)
+                {
+                    Html.DisplayFor(modelItem => item.ExtraPickup);
+                }
+                else
+                {
+                    Html.DisplayFor(modelItem => item.ExtraPickup);
+                }
+                @*@Html.DisplayFor(modelItem => item.ExtraPickup)*@
+                @*Html.DisplayFor(modelItem => item.ExtraPickup.HasValue ? item.ExtraPickup.Value.Date : item.ExtraPickup)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SuspendServiceStart)
