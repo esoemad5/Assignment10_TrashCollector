@@ -134,8 +134,7 @@ namespace TrashCollector.Controllers
                         (
                             c => c.Zipcode == currentEmployee.AssignedZipcode
                             && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
-
-                        //Both of these give an empty list
+                            
                         && !(!(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd)
                         && !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart)) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
 
@@ -149,8 +148,7 @@ namespace TrashCollector.Controllers
                         (
                             c => c.Zipcode == currentEmployee.AssignedZipcode
                             && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
-
-                        //Both of these give an empty list
+                            
                         //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd)
                         //&& !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
 
@@ -164,8 +162,7 @@ namespace TrashCollector.Controllers
                         (
                             c => c.Zipcode == currentEmployee.AssignedZipcode
                             && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
-
-                        //Both of these give an empty list
+                            
                         && (!(!(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd)
                         && !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart)) || (!c.SuspendServiceEnd.HasValue && !c.SuspendServiceStart.HasValue)) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
 
@@ -179,8 +176,7 @@ namespace TrashCollector.Controllers
                         (
                             c => c.Zipcode == currentEmployee.AssignedZipcode
                             && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
-
-                        //Both of these give an empty list
+                            
                         //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd)
                         //&& !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
 
