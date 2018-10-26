@@ -24,7 +24,7 @@ namespace TrashCollector.Controllers
         //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
         //}
 
-        public ActionResult Index(/*string day*/) // This feels very anti-Polymorphism
+        public ActionResult Index(/*string day*/) // This feels very anti-Polymorphism (monomorphism?)
         {
             string currentUserID = User.Identity.GetUserId();
             Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
@@ -41,11 +41,17 @@ namespace TrashCollector.Controllers
             return View(db.Customers.
                 Where
                 (
+                    // Only customers in the employee's zipcode
                     c => c.Zipcode == currentEmployee.AssignedZipcode
-                    && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
-
+                    // Customers who routinely have their trash picked up today
+                    && (
+                        c.PickupDay == currentDayAsAString
+                        // or requested an Extra Pickup
+                        || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+                    // Exclude customers who have Suspended Service
                     && (
                         !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd && DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart)
+                        // but not those who have never requested Suspended Service (since Customer.SuspendedServiceEnd/Start are both nullable)
                         || (!c.SuspendServiceEnd.HasValue && !c.SuspendServiceStart.HasValue))
                 ).
                 ToList());
