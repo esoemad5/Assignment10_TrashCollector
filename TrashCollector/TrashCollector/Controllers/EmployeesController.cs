@@ -23,7 +23,7 @@ namespace TrashCollector.Controllers
         //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
         //}
 
-        public ActionResult Index(string day)
+        public ActionResult Index(string day) // This feels very anti-Polymorphism
         {
             string currentUserID = User.Identity.GetUserId();
             Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).Single();
