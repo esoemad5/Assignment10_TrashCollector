@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -25,15 +26,20 @@ namespace TrashCollector.Controllers
 
         public ActionResult Index(string day) // This feels very anti-Polymorphism
         {
+            DayOfWeek _day = DateTime.Now.DayOfWeek;
+            DateTime __day = DateTime.Now.Date;
             string currentUserID = User.Identity.GetUserId();
-            Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).Single();
+            Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
 
-            if (string.IsNullOrEmpty(day))
-            {
-                return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
-            }
+            Test();
+
+            //if (string.IsNullOrEmpty(day))
+            //{
+            //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
+            //}
             
-            return View(db.Customers.Where(c => c.Zipcode == currentEmployee.AssignedZipcode && c.PickupDay == day).ToList());
+            return View(db.Customers.
+                Where(c => c.Zipcode == currentEmployee.AssignedZipcode && (c.PickupDay == "Friday" || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))).ToList());
         }
 
         // GET: Employees/Details/5
@@ -68,11 +74,28 @@ namespace TrashCollector.Controllers
             if (ModelState.IsValid)
             {
                 db.Employees.Add(employee);
+                //Test();
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 
             return View(employee);
+        }
+        private void Test()
+        {
+            //Employee testEmployee = new Employee();
+            //testEmployee.AssignedZipcode = 99999;
+            //testEmployee.FirstName = "test";
+            //testEmployee.LastName = "Employee";
+            //db.Employees.Add(testEmployee);
+            Customer testCustomer = new Customer();
+            testCustomer.FirstName = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+            testCustomer.LastName = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+            testCustomer.Zipcode = 90210;
+            db.Customers.Add(testCustomer);
+
+            //db.SaveChanges();
         }
 
         // GET: Employees/Edit/5
