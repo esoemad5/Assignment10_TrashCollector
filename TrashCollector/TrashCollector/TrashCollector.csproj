@@ -218,6 +218,10 @@
     <Compile Include="Migrations\201810251939477_Added a Foreign Key reference in Employees to Users.Designer.cs">
       <DependentUpon>201810251939477_Added a Foreign Key reference in Employees to Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810262022562_Added property to Customer LastTimeTrashWasPickedUp.cs" />
+    <Compile Include="Migrations\201810262022562_Added property to Customer LastTimeTrashWasPickedUp.Designer.cs">
+      <DependentUpon>201810262022562_Added property to Customer LastTimeTrashWasPickedUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -326,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810251939477_Added a Foreign Key reference in Employees to Users.resx">
       <DependentUpon>201810251939477_Added a Foreign Key reference in Employees to Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810262022562_Added property to Customer LastTimeTrashWasPickedUp.resx">
+      <DependentUpon>201810262022562_Added property to Customer LastTimeTrashWasPickedUp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

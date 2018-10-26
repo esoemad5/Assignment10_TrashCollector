@@ -41,5 +41,7 @@ namespace TrashCollector.Models
 
         [Display(Name = "Suspended Service End Date")]
         public DateTime? SuspendServiceEnd { get; set; }
+
+        public DateTime? LastTimeTrashWasPickedUp { get; set; }
     }
 }

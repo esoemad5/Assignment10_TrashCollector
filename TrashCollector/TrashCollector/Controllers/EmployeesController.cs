@@ -57,6 +57,11 @@ namespace TrashCollector.Controllers
                 ToList());
         }
 
+        public void VisitCustomer()
+        {
+
+        }
+
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
         {
