@@ -65,14 +65,8 @@
             <td>
                 @if (item.ExtraPickup.HasValue)
                 {
-                    Html.DisplayFor(modelItem => item.ExtraPickup);
+                    @Convert.ToDateTime(item.ExtraPickup).ToString("MM/dd/yyyy")
                 }
-                else
-                {
-                    Html.DisplayFor(modelItem => item.ExtraPickup);
-                }
-                @*@Html.DisplayFor(modelItem => item.ExtraPickup)*@
-                @*Html.DisplayFor(modelItem => item.ExtraPickup.HasValue ? item.ExtraPickup.Value.Date : item.ExtraPickup)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SuspendServiceStart)
