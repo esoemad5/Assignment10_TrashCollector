@@ -38,6 +38,7 @@ namespace TrashCollector.Controllers
 
             //DateTime firstSunday = new DateTime(1753, 1, 7); An idea I decided not to use
             string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
+
             return View(db.Customers.
                 Where
                 (
@@ -53,6 +54,10 @@ namespace TrashCollector.Controllers
                         !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd && DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart)
                         // but not those who have never requested Suspended Service (since Customer.SuspendedServiceEnd/Start are both nullable)
                         || (!c.SuspendServiceEnd.HasValue && !c.SuspendServiceStart.HasValue))
+                    // Exclude customers who have been serviced today
+                    && (
+                        !c.LastTimeTrashWasPickedUp.HasValue
+                        || DbFunctions.TruncateTime(c.LastTimeTrashWasPickedUp) < DbFunctions.TruncateTime(DateTime.Now))
                 ).
                 ToList());
         }
