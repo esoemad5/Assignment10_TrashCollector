@@ -51,8 +51,6 @@ namespace TrashCollector.Controllers
         {
             if (ModelState.IsValid)
             {
-                //customer.SuspendServiceEnd = null;
-                //customer.SuspendServiceStart = null;
                 customer.UserID = User.Identity.GetUserId();
                 db.Customers.Add(customer);
                 db.SaveChanges();

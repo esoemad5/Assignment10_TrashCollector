@@ -13,10 +13,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(modell => modell.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(m => m.LastName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Address)
@@ -42,41 +42,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Zipcode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MoneyOwed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PickupDay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ExtraPickup)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SuspendServiceStart)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zipcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoneyOwed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickupDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExtraPickup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SuspendServiceStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
