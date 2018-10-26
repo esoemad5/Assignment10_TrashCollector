@@ -24,7 +24,7 @@ namespace TrashCollector.Controllers
         //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
         //}
 
-        public ActionResult Index(string day) // This feels very anti-Polymorphism
+        public ActionResult Index(/*string day*/int? debuggingProperty) // This feels very anti-Polymorphism
         {
             string currentUserID = User.Identity.GetUserId();
             Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
@@ -37,10 +37,133 @@ namespace TrashCollector.Controllers
             //}
 
             //DateTime firstSunday = new DateTime(1753, 1, 7); An idea I decided not to use
-
             string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
+            switch (debuggingProperty)
+            {
+                case 1:
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        && !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd)
+                        && !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
+
+                        //&& DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd
+                        //&& DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart
+                        ).
+                        ToList());
+                case 2:
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd)
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
+
+                        && DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd
+                        && DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart
+                        ).
+                        ToList());
+                case 3:
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        && !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd)
+                        && !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
+
+                        //&& DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd
+                        //&& DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart
+                        ).
+                        ToList());
+                case 4:
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd)
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
+
+                        && DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd
+                        && DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart
+                        ).
+                        ToList());
+                case 5: // use HasValue
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        && ((!(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd)
+                        && !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart)) || (!c.SuspendServiceEnd.HasValue && !c.SuspendServiceStart.HasValue))
+
+                        //&& DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd
+                        //&& DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart
+                        ).
+                        ToList());
+                case 6: // herewego
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        //&& ((!(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd)
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart)) || (!c.SuspendServiceEnd.HasValue && !c.SuspendServiceStart.HasValue))
+
+                        && 
+                        (
+                            (DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd && DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart)
+                            || (!c.SuspendServiceEnd.HasValue && !c.SuspendServiceStart.HasValue))
+                        ).
+                        ToList());
+                default:
+                    return View(db.Customers.
+                        Where
+                        (
+                            c => c.Zipcode == currentEmployee.AssignedZipcode
+                            && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                        //Both of these give an empty list
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd)
+                        //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
+
+                        //&& DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd
+                        //&& DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart
+                        ).
+                        ToList());
+            }
+
+
             return View(db.Customers.
-                Where(c => c.Zipcode == currentEmployee.AssignedZipcode && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))).ToList());
+                Where
+                (
+                    c => c.Zipcode == currentEmployee.AssignedZipcode
+                    && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
+
+                //Both of these give an empty list
+                //&& !(DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceEnd)
+                //&& !(DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceStart) // Use ! because c.SuspendServiceEnd/Start is nullable. Now < null is false and Now > null is false.
+
+                //&& DbFunctions.TruncateTime(DateTime.Now) > c.SuspendServiceEnd
+                //&& DbFunctions.TruncateTime(DateTime.Now) < c.SuspendServiceStart
+                ).
+                ToList());
         }
 
         // GET: Employees/Details/5
