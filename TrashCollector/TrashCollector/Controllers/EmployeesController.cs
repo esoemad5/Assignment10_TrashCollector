@@ -26,20 +26,21 @@ namespace TrashCollector.Controllers
 
         public ActionResult Index(string day) // This feels very anti-Polymorphism
         {
-            DayOfWeek _day = DateTime.Now.DayOfWeek;
-            DateTime __day = DateTime.Now.Date;
             string currentUserID = User.Identity.GetUserId();
             Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
 
-            Test();
+            //Test();
 
             //if (string.IsNullOrEmpty(day))
             //{
             //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
             //}
-            
+
+            //DateTime firstSunday = new DateTime(1753, 1, 7); An idea I decided not to use
+
+            string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
             return View(db.Customers.
-                Where(c => c.Zipcode == currentEmployee.AssignedZipcode && (c.PickupDay == "Friday" || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))).ToList());
+                Where(c => c.Zipcode == currentEmployee.AssignedZipcode && (c.PickupDay == currentDayAsAString || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))).ToList());
         }
 
         // GET: Employees/Details/5
