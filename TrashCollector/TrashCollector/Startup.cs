@@ -28,7 +28,7 @@ namespace TrashCollector
                  */
             }
 
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             if (!roleManager.RoleExists("Customer")/*roleManager.RoleExistsAsync("Customer").Result*/)
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
