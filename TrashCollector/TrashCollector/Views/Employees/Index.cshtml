@@ -5,7 +5,7 @@
 }
 
 <h2>Index</h2>
-@*@using (Html.BeginForm())
+@using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
@@ -20,8 +20,7 @@
                     List<SelectListItem> days = new List<SelectListItem>();
                     for (int i = 0; i < 7; i++)
                     {
-                        int todayAsANumber = (int)DateTime.Now.DayOfWeek;
-                        string aDayOfTheWeek = DateTime.Now.AddDays((i - todayAsANumber) % 7).DayOfWeek.ToString(); /*Clever way to start list on Sunday*/
+                        string aDayOfTheWeek = DateTime.Now.AddDays(i).DayOfWeek.ToString();
                         days.Add(new SelectListItem
                         {
                             Text = aDayOfTheWeek,
@@ -40,9 +39,9 @@
             </div>
         </div>
     </div>
-    }*@
+    }
 
-@{
+@*@{
     List<SelectListItem> days = new List<SelectListItem>();
     for (int i = 0; i < 7; i++)
     {
@@ -55,7 +54,12 @@
     }
 
 }
-@Html.DropDownList("day", days)
+<div id="_day">
+    @Html.DropDownList("day", days)
+</div>
+
+@_day.ToString()
+@Html.ActionLink("Check Day", "Index", new { specifiedDay = })*@
 <table class="table">
     <tr>
         <th>
