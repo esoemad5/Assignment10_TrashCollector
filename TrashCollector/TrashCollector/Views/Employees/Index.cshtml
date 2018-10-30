@@ -76,7 +76,8 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", "Customers", new { id = item.ID }, null) 
+                @Html.ActionLink("Details", "Details", "Customers", new { id = item.ID }, null) |
+                @Html.ActionLink("Pickup Trash", "PickUpTrash", new { customerID = item.ID })
             </td>
         </tr>
     }

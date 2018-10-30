@@ -24,6 +24,13 @@ namespace TrashCollector.Controllers
         //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
         //}
 
+
+        public ActionResult PickUpTrash(int customerID)
+        {
+            db.Customers.Where(c => c.ID == customerID).Single().LastTimeTrashWasPickedUp = DateTime.Now;
+            db.SaveChanges();
+            return Index();
+        }
         public ActionResult Index(/*string day*/) // This feels very anti-Polymorphism (monomorphism?)
         {
             string currentUserID = User.Identity.GetUserId();
@@ -39,7 +46,7 @@ namespace TrashCollector.Controllers
             //DateTime firstSunday = new DateTime(1753, 1, 7); An idea I decided not to use
             string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
 
-            return View(db.Customers.
+            return View("Index", db.Customers.
                 Where
                 (
                     // Only customers in the employee's zipcode
