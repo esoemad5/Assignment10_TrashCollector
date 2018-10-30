@@ -27,7 +27,9 @@ namespace TrashCollector.Controllers
 
         public ActionResult PickUpTrash(int customerID)
         {
-            db.Customers.Where(c => c.ID == customerID).Single().LastTimeTrashWasPickedUp = DateTime.Now;
+            Customer customer = db.Customers.Where(c => c.ID == customerID).Single();
+            customer.LastTimeTrashWasPickedUp = DateTime.Now;
+            customer.MoneyOwed += 50;
             db.SaveChanges();
             return Index(); // ******************************************* If returns in other methods didn't have the view name as a parameter, this would not work.
         }
