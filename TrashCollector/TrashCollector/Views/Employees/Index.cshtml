@@ -5,10 +5,57 @@
 }
 
 <h2>Index</h2>
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-<p>
+    <div class="form-horizontal">
+        <h4>Employee</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("day","Day")
+            <div class="col-md-0">
+                @{
+                    List<SelectListItem> days = new List<SelectListItem>();
+                    for (int i = 0; i < 7; i++)
+                    {
+                        int todayAsANumber = (int)DateTime.Now.DayOfWeek;
+                        string aDayOfTheWeek = DateTime.Now.AddDays((i - todayAsANumber) % 7).DayOfWeek.ToString(); /*Clever way to start list on Sunday*/
+                        days.Add(new SelectListItem
+                        {
+                            Text = aDayOfTheWeek,
+                            Value = aDayOfTheWeek
+                        });
+                    }
 
-</p>
+                }
+                @Html.DropDownList("day", days)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-0">
+                <input type="submit" value="Check" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }*@
+
+@{
+    List<SelectListItem> days = new List<SelectListItem>();
+    for (int i = 0; i < 7; i++)
+    {
+        string aDayOfTheWeek = DateTime.Now.AddDays(i).DayOfWeek.ToString();
+        days.Add(new SelectListItem
+        {
+            Text = aDayOfTheWeek,
+            Value = aDayOfTheWeek
+        });
+    }
+
+}
+@Html.DropDownList("day", days)
 <table class="table">
     <tr>
         <th>
@@ -75,8 +122,8 @@
                 @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", "Customers", new { id = item.ID }, null) 
-                @Html.ActionLink("Pickup", "PickUpTrash", new { customerID = item.ID }) 
+                @Html.ActionLink("Details", "Details", "Customers", new { id = item.ID }, null)
+                @Html.ActionLink("Pickup", "PickUpTrash", new { customerID = item.ID })
             </td>
         </tr>
     }
