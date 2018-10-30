@@ -29,7 +29,7 @@ namespace TrashCollector.Controllers
         {
             db.Customers.Where(c => c.ID == customerID).Single().LastTimeTrashWasPickedUp = DateTime.Now;
             db.SaveChanges();
-            return Index();
+            return Index(); // ******************************************* If returns in other methods didn't have the view name as a parameter, this would not work.
         }
         public ActionResult Index(/*string day*/) // This feels very anti-Polymorphism (monomorphism?)
         {
@@ -69,11 +69,6 @@ namespace TrashCollector.Controllers
                 ToList());
         }
 
-        public void VisitCustomer()
-        {
-
-        }
-
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
         {
@@ -86,13 +81,13 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            return View("Details", employee);
         }
 
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Employees/Create
@@ -112,7 +107,7 @@ namespace TrashCollector.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(employee);
+            return View("Create", employee);
         }
         private void Test()
         {
@@ -142,7 +137,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            return View("Edit", employee);
         }
 
         // POST: Employees/Edit/5
@@ -158,7 +153,7 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(employee);
+            return View("Edit", employee);
         }
 
         // GET: Employees/Delete/5
@@ -173,7 +168,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(employee);
+            return View("Delete", employee);
         }
 
         // POST: Employees/Delete/5

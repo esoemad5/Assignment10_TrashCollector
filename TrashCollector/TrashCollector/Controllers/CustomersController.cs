@@ -18,7 +18,7 @@ namespace TrashCollector.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            return View("Index", db.Customers.ToList());
         }
 
         // GET: Customers/Details/5
@@ -33,13 +33,13 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View("Details", customer);
         }
 
         // GET: Customers/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Customers/Create
@@ -57,7 +57,7 @@ namespace TrashCollector.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(customer);
+            return View("Create", customer);
         }
 
         // GET: Customers/Edit/5
@@ -72,7 +72,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View("Edit", customer);
         }
 
         // POST: Customers/Edit/5
@@ -88,7 +88,7 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+            return View("Edit", customer);
         }
 
         // GET: Customers/Delete/5
@@ -103,7 +103,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View("Delete", customer);
         }
 
         // POST: Customers/Delete/5
