@@ -1,0 +1,1 @@
+Admin role that can do CRUD operations on all users/customers/employees and assign users to the Employee role
