@@ -101,10 +101,17 @@
 </div>
 
 
-@*Google maps stuff
-    https://www.youtube.com/watch?v=pRiQeo17u6c*@
+@*
+    Google maps stuff:
+    https://www.youtube.com/watch?v=pRiQeo17u6c
+
+    Axios to get lat/lng from an address (parses a JSON i think):
+    https://github.com/axios/axios
+
+*@
 @if (User.IsInRole("Employee"))
 {
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
         /* Always set the map height explicitly to define the size of the div
            * element that contains the map. */
@@ -116,6 +123,30 @@
     <div class="col-md-6">
         <div id="map"></div>
         <script>
+            var coordinates = geocode();
+            console.log(coordinates)
+
+
+            function geocode() {
+                var location = '9425 Sunset Blvd 90210';
+                axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                    params:{
+                        address:location,
+                        key:'@ViewBag.geocodeAPIKey'
+                    }
+                })
+                .then(function (response) {
+                    console.log(response);
+                    console.log(response.data.results[0].geometry.location.lat);
+                    console.log(response.data.results[0].geometry.location.lng);
+                    return response.data.results[0].geometry.location.lat
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+
+
             function initMap() {
 
                 var location = {
@@ -144,8 +175,7 @@
                 });
             }
         </script>
-        @{string address = "https://maps.googleapis.com/maps/api/js?key=" + APIKeys.googleMaps + "&callback=initMap";}
-        <script src="@{address;}" @*This is where the function call happens*@
+        <script src= "@ViewBag.MapsAPICall" @*This is where the function call initMap() happens*@
                 async defer></script>
     </div>
 }

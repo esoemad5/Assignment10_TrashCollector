@@ -25,6 +25,9 @@ namespace TrashCollector.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
+            ViewBag.MapsAPICall = APIKeys.googleMapsInitMapMethod();
+            //ViewBag.MapsAPIKey = APIKeys.googleMaps;
+            ViewBag.GeocodeAPIKey = APIKeys.geocodeKey;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
