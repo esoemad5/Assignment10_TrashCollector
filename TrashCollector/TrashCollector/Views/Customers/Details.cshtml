@@ -85,10 +85,10 @@
     </dl>
     @if (User.IsInRole("Customer"))
     {
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
+    <p>
+        <input type="button" class="btn btn-info" value="Edit" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.ID })'" />
+        <input type="button" class="btn btn-info" value="Back to List" onclick="location.href='@Url.Action("Index", "Customers")'" />
+    </p>
     }
     @if (User.IsInRole("Employee"))
     {
