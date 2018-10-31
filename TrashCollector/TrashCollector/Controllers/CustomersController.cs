@@ -18,7 +18,8 @@ namespace TrashCollector.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            return View("Index", db.Customers.ToList());
+            string userID = User.Identity.GetUserId();
+            return View("Index", db.Customers.Where(c => c.UserID == userID).ToList());
         }
 
         // GET: Customers/Details/5
@@ -80,10 +81,11 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Address,Zipcode,MoneyOwed,PickupDay,ExtraPickup,SuspendServiceStart,SuspendServiceEnd")] Customer customer)
+        public ActionResult Edit([Bind(Include = "ID,FirstName,LastName,Address,Zipcode,MoneyOwed,PickupDay,ExtraPickup,SuspendServiceStart,SuspendServiceEnd, LastTimeTrashWasPickedUp")] Customer customer)
         {
             if (ModelState.IsValid)
             {
+                customer.UserID = User.Identity.GetUserId(); // The foreign key wouldn't update so I had to do it here instead of in the Bind
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

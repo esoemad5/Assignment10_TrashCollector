@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Edit Account", "Edit", "Customer", new { id = User.Identity.GetUserId() }, null)</li> @*This passes the Id from the AspNetUsers table, need to polymorphose some stuff*@
+                    <li>@Html.ActionLink("Edit Account", "Index", "Customers")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
