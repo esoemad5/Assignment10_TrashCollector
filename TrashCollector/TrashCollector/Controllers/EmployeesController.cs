@@ -31,7 +31,8 @@ namespace TrashCollector.Controllers
             customer.LastTimeTrashWasPickedUp = DateTime.Now;
             customer.MoneyOwed += 50;
             db.SaveChanges();
-            return Index(); // ******************************************* If returns in other methods didn't have the view name as a parameter, this would not work.
+            return RedirectToAction("Index", "Employees"); // Doesn't keep stuff in the url, so refreshing the page won't re-charge the customer
+            //return Index(); // ******************************************* If returns in other methods didn't have the view name as a parameter, this would not work.
         }
         public ActionResult Index(/*string day*/) // This feels very anti-Polymorphism (monomorphism?)
         {
