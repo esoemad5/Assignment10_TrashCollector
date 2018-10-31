@@ -11,7 +11,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(m => m.FirstName)
         </dt>
 
         <dd>
@@ -120,35 +120,52 @@
             width: 100%;
         }
     </style>
+
+
     <div class="col-md-6">
         <div id="map"></div>
         <script>
-            var coordinates = geocode();
-            console.log(coordinates)
+            
 
-
-            function geocode() {
-                var location = '9425 Sunset Blvd 90210';
+            @*var jsonMaybe = axios.get('https://maps.googleapis.com/maps/api/geocode/json?', {
+                params: {
+                    address: '9425 Sunset Blvd 90210',
+                    key: '@ViewBag.geocodeKey'
+                }
+            });*@
+            @*
+                .then(function(response){
+                
+                })
+            *@
+            geocode('@ViewBag.addressAndZipCode')
+            function geocode(location) {
                 axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-                    params:{
-                        address:location,
-                        key:'@ViewBag.geocodeAPIKey'
+                    params: {
+                        address: location,
+                        key: '@ViewBag.geocodeKey'
                     }
                 })
-                .then(function (response) {
-                    console.log(response);
-                    console.log(response.data.results[0].geometry.location.lat);
-                    console.log(response.data.results[0].geometry.location.lng);
-                    return response.data.results[0].geometry.location.lat
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+                    .then(function (response) {
+                        console.log("Begin response");
+                        console.log(response);
+                        console.log("End response");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
 
-
+            var jsonMaybe = axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                    params: {
+                        address: '@ViewBag.addressAndZipCode',
+                        key: '@ViewBag.geocodeKey'
+                    }
+                })
+            console.log("Begin maybe");
+            console.log(jsonMaybe);
+            console.log("End maybe");
             function initMap() {
-
                 var location = {
                     lat: -34.397,
                     lng: 150.644
@@ -175,13 +192,10 @@
                 });
             }
         </script>
-        <script src= "@ViewBag.MapsAPICall" @*This is where the function call initMap() happens*@
+
+        <script src="@ViewBag.mapsCall"
                 async defer></script>
     </div>
 }
 
 
-@*marker = new google.maps.Marker({
-    position = { lat: -34.397, lng: 150.644 }
-    map: map
-    });*@
