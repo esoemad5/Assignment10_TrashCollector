@@ -56,7 +56,7 @@
                     for (int i = 0; i < 7; i++)
                     {
                         int todayAsANumber = (int)DateTime.Now.DayOfWeek;
-                        string aDayOfTheWeek = DateTime.Now.AddDays((i-todayAsANumber)%7).DayOfWeek.ToString(); /*Clever way to start list on Sunday*/
+                        string aDayOfTheWeek = DateTime.Now.AddDays((i-todayAsANumber)%7).DayOfWeek.ToString();
                         days.Add(new SelectListItem
                         {
                             Text = aDayOfTheWeek,

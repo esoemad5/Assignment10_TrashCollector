@@ -6,7 +6,7 @@
 
 <h2>Details</h2>
 
-<div>
+<div class="col-md-6">
     <h4>Customer</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -83,8 +83,43 @@
         </dd>
 
     </dl>
+    @if (User.IsInRole("Customer"))
+    {
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    }
+    @if (User.IsInRole("Employee"))
+    {
+        <p>
+            <input type="button" class="btn btn-info" value="Pickup Trash" onclick="location.href='@Url.Action("PickUpTrash", "Employees", new { customerID = Model.ID })'" />
+            <input type="button" class="btn btn-info" value="Back to List" onclick="location.href='@Url.Action("Index", "Employees")'" />
+        </p>
+    }
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: 400px;
+        width: 400px;
+    }
+</style>
+<div class="col-md-6">
+    <div id="map"></div>
+    <script>
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUn_W3DHdK0YaTRQZJDxdC8Ip_PTJnnA&callback=initMap"
+            async defer></script>
+</div>
