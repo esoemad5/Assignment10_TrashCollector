@@ -16,13 +16,7 @@ namespace TrashCollector.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Employees
-        //public ActionResult Index()
-        //{
-        //    string currentUserID = User.Identity.GetUserId();
-        //    Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).Single();
-        //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
-        //}
+        
 
 
         public ActionResult PickUpTrash(int customerID)
@@ -32,12 +26,19 @@ namespace TrashCollector.Controllers
             customer.MoneyOwed += 50;
             db.SaveChanges();
             return RedirectToAction("Index", "Employees"); // Doesn't keep stuff in the url, so refreshing the page won't re-charge the customer
-            //return Index(); // ******************************************* If returns in other methods didn't have the view name as a parameter, this would not work.
         }
-        public ActionResult Index(/*string day*/) // This feels very anti-Polymorphism (monomorphism?)
+
+        // GET: Employees
+        //public ActionResult Index()
+        //{
+        //    string currentUserID = User.Identity.GetUserId();
+        //    Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).Single();
+        //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
+        //}
+        
+        public ActionResult Index(string day) // This feels very anti-Polymorphism (monomorphism?)
         {
-            string currentUserID = User.Identity.GetUserId();
-            Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
+            
 
             //Test();
 
@@ -49,14 +50,22 @@ namespace TrashCollector.Controllers
             //DateTime firstSunday = new DateTime(1753, 1, 7); An idea I decided not to use
             string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
 
-            return View("Index", db.Customers.
+            return View("Index", GetListOfCustomers(currentDayAsAString));
+        }
+
+        private List<Customer> GetListOfCustomers (string day)
+        {
+            string currentUserID = User.Identity.GetUserId();
+            Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
+
+            return db.Customers.
                 Where
                 (
                     // Only customers in the employee's zipcode
                     c => c.Zipcode == currentEmployee.AssignedZipcode
                     // Customers who routinely have their trash picked up today
                     && (
-                        c.PickupDay == currentDayAsAString
+                        c.PickupDay == day
                         // or requested an Extra Pickup
                         || DbFunctions.TruncateTime(c.ExtraPickup) == DbFunctions.TruncateTime(DateTime.Now))
                     // Exclude customers who have Suspended Service
@@ -69,8 +78,20 @@ namespace TrashCollector.Controllers
                         !c.LastTimeTrashWasPickedUp.HasValue
                         || DbFunctions.TruncateTime(c.LastTimeTrashWasPickedUp) < DbFunctions.TruncateTime(DateTime.Now))
                 ).
-                ToList());
+                ToList();
         }
+
+
+
+
+
+
+
+
+        /*
+         * The following actions are unused. They would be useful for a user with an Admin role, so they have been left in
+         */
+
 
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
@@ -112,22 +133,7 @@ namespace TrashCollector.Controllers
 
             return View("Create", employee);
         }
-        private void Test()
-        {
-            //Employee testEmployee = new Employee();
-            //testEmployee.AssignedZipcode = 99999;
-            //testEmployee.FirstName = "test";
-            //testEmployee.LastName = "Employee";
-            //db.Employees.Add(testEmployee);
-            Customer testCustomer = new Customer();
-            testCustomer.FirstName = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
-            testCustomer.LastName = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
-            testCustomer.Zipcode = 90210;
-            db.Customers.Add(testCustomer);
-
-            //db.SaveChanges();
-        }
-
+        
         // GET: Employees/Edit/5
         public ActionResult Edit(int? id)
         {
