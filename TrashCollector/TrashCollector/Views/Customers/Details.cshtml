@@ -129,18 +129,18 @@
             _string = splitstring[0] + splitstring[1];*@
 
             // Do it this way because javascript turns & into &amp; sometimes. It didn't do that for the maps API call though.
-            var geocodeAPICall = "";
-            var apiUrl = "@ViewBag.geocodeBase";
+            //var geocodeAPICall = "";
+            //var apiUrl = "@ViewBag.geocodeBase";
             var _address = "@ViewBag.addressAndZipcode";
             var _key = "@ViewBag.geocodeKey";
-            geocodeAPICall = apiUrl + _address + "&key=" + _key;
+            //geocodeAPICall = apiUrl + _address + "&key=" + _key;
             
             var latAndLng
             function geocode() {
                 axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params: { address: _address, key: _key } })
                     .then((response) => {
                         latAndLng = response.data.results[0].geometry.location;
-                        console.log(latAndLng);
+                        //console.log(latAndLng);
 
                         initMap();
                     });
@@ -153,7 +153,7 @@
                 }
 
                 var options = {
-                    zoom: 8,
+                    zoom: 13,
                     center: location
                 }
 

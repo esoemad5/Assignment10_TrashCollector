@@ -134,50 +134,71 @@
     <div id="map"></div>
     <script>
 
-            @*var string = "@ViewBag.geocodeCall";
-            var splitstring = string.split('amp;');
-            _string = splitstring[0] + splitstring[1];*@
+        @*var string = "@ViewBag.geocodeCall";
+        var splitstring = string.split('amp;');
+        _string = splitstring[0] + splitstring[1];*@
 
-            // Do it this way because javascript turns & into &amp; sometimes. It didn't do that for the maps API call though.
-            //var geocodeAPICall = "";
-            //var apiUrl = "@ViewBag.geocodeBase";
-            var _address = "@ViewBag.Zipcode";
-            var _key = "@ViewBag.geocodeKey";
-            //geocodeAPICall = apiUrl + _address + "&key=" + _key;
+        // Do it this way because javascript turns & into &amp; sometimes. It didn't do that for the maps API call though.
+        //var geocodeAPICall = "";
+        //var apiUrl = "@ViewBag.geocodeBase";
+        var _address = "@ViewBag.Zipcode";
+        var _key = "@ViewBag.geocodeKey";
+        //geocodeAPICall = apiUrl + _address + "&key=" + _key;
 
-            var latAndLng
-            function geocode() {
-                axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params: {address:_address, key:_key}})
-                    .then((response) => {
-                        latAndLng = response.data.results[0].geometry.location;
-                        console.log(latAndLng);
+        var latAndLng
+        function geocode() {
+            axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params: { address:_address, key:_key } })
+                .then((response) => {
+                    latAndLng = response.data.results[0].geometry.location;
+                    //console.log(latAndLng);
 
-                        initMap();
-                    });
+                    initMap();
+                });
+        }
+
+        function initMap() {
+            var location = {
+                lat: latAndLng.lat,
+                lng: latAndLng.lng
             }
 
-            function initMap() {
-                var location = {
-                    lat: latAndLng.lat,
-                    lng: latAndLng.lng
-                }
+            var options = {
+                zoom: 12,
+                center: location
+            }
 
-                var options = {
-                    zoom: 12,
-                    center: location
-                }
-
-                var map = new google.maps.Map(document.getElementById('map'), options);
+            var map = new google.maps.Map(document.getElementById('map'), options);
 
                 
-                @*@foreach(var customer in Model)
-                {
-                    var _marker = new google.maps.Marker({
-                        position: customer.
-                    })
-                }*@
+            @*@foreach(var customer in Model)
+            {
+                var _marker = new google.maps.Marker({
+                    position: customer.
+                })
+            }*@
 
-                var marker = new google.maps.Marker({
+            @*@foreach(var customer in Model)
+            {
+                @("<script></script>")
+            }*@
+
+            makeAMarker(map, location);
+
+            @*var marker = new google.maps.Marker({
+            position: location,
+            map: map
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: '@ViewBag.Zipcode'
+            });
+
+            marker.addListener('click', function () {
+                infoWindow.open(map, marker);
+            });*@
+        }
+        function makeAMarker(map, location) {
+            var marker = new google.maps.Marker({
                 position: location,
                 map: map
                 });
@@ -189,7 +210,7 @@
                 marker.addListener('click', function () {
                     infoWindow.open(map, marker);
                 });
-            }
+        }
 
             function mapFunction() {
                 geocode();
