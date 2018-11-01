@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
@@ -105,6 +106,11 @@ namespace TrashCollector.Controllers
             if (ModelState.IsValid)
             {
                 customer.UserID = User.Identity.GetUserId(); // The foreign key wouldn't update so I had to do it here instead of in the Bind
+                
+                //Task task = new Task(new Action(customer.updateLatitudeAndLongitudeAsync));
+                //Task[] taskArray = new Task[] { task };
+                //Task.WaitAll(taskArray);
+
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
