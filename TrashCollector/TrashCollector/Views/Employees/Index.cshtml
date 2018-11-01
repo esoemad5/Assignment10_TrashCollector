@@ -6,15 +6,15 @@
 
 <h2>Index</h2>
 @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+{
+    @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <h4>Employee</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.Label("day","Day")
+            @Html.Label("day", "Day")
             <div class="col-md-0">
                 @{
                     List<SelectListItem> days = new List<SelectListItem>();
@@ -39,96 +39,162 @@
             </div>
         </div>
     </div>
-    }
-
-@*@{
-    List<SelectListItem> days = new List<SelectListItem>();
-    for (int i = 0; i < 7; i++)
-    {
-        string aDayOfTheWeek = DateTime.Now.AddDays(i).DayOfWeek.ToString();
-        days.Add(new SelectListItem
-        {
-            Text = aDayOfTheWeek,
-            Value = aDayOfTheWeek
-        });
-    }
-
 }
-<div id="_day">
-    @Html.DropDownList("day", days)
+
+<div class="col-md-12">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(modell => modell.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zipcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoneyOwed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickupDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExtraPickup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SuspendServiceStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SuspendServiceEnd)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zipcode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoneyOwed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PickupDay)
+                </td>
+                <td>
+                    @if (item.ExtraPickup.HasValue)
+                    {
+                        @Convert.ToDateTime(item.ExtraPickup).ToString("MM/dd/yyyy")
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SuspendServiceStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", "Customers", new { id = item.ID }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
 </div>
 
-@_day.ToString()
-@Html.ActionLink("Check Day", "Index", new { specifiedDay = })*@
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(modell => modell.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Zipcode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MoneyOwed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PickupDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ExtraPickup)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SuspendServiceStart)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SuspendServiceEnd)
-        </th>
-        <th></th>
-    </tr>
+@if (Model.Count() > 0)
+{
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zipcode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoneyOwed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickupDay)
-            </td>
-            <td>
-                @if (item.ExtraPickup.HasValue)
-                {
-                    @Convert.ToDateTime(item.ExtraPickup).ToString("MM/dd/yyyy")
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
+
+
+    <div id="map"></div>
+    <script>
+
+            @*var string = "@ViewBag.geocodeCall";
+            var splitstring = string.split('amp;');
+            _string = splitstring[0] + splitstring[1];*@
+
+            // Do it this way because javascript turns & into &amp; sometimes. It didn't do that for the maps API call though.
+            var geocodeAPICall = "";
+            var apiUrl = "@ViewBag.geocodeBase";
+            var address = "@ViewBag.Zipcode";
+            var key = "@ViewBag.geocodeKey";
+            geocodeAPICall = apiUrl + address + "&key=" + key;
+
+            var latAndLng
+            function geocode() {
+                axios.get(geocodeAPICall)
+                    .then((response) => {
+                        latAndLng = response.data.results[0].geometry.location;
+                        console.log(latAndLng);
+
+                        initMap();
+                    });
+            }
+
+            function initMap() {
+                var location = {
+                    lat: latAndLng.lat,
+                    lng: latAndLng.lng
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SuspendServiceStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SuspendServiceEnd)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", "Customers", new { id = item.ID }, null)
-            </td>
-        </tr>
-    }
 
-</table>
+                var options = {
+                    zoom: 12,
+                    center: location
+                }
+
+                var map = new google.maps.Map(document.getElementById('map'), options);
+
+                
+
+
+                @*var marker = new google.maps.Marker({
+                position: location,
+                map: map
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: '@ViewBag.addressAndZipcode'
+                });
+
+                marker.addListener('click', function () {
+                    infoWindow.open(map, marker);
+                });*@
+            }
+
+            function mapFunction() {
+                geocode();
+            }
+    </script>
+
+    <script src="@ViewBag.mapsCall"
+            async defer></script>
+
+
+}
+
+

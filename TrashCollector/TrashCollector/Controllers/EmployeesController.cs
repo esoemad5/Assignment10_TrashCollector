@@ -59,6 +59,14 @@ namespace TrashCollector.Controllers
             string currentUserID = User.Identity.GetUserId();
             Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).First();
 
+            ViewBag.mapsCall = APIKeys.mapsCall;
+
+            ViewBag.geocodeBase = APIKeys.geocodeBase;
+            ViewBag.Zipcode = currentEmployee.AssignedZipcode;
+            ViewBag.geocodeKey = APIKeys.geocodeKey;
+
+            
+
             return db.Customers.
                 Where
                 (
