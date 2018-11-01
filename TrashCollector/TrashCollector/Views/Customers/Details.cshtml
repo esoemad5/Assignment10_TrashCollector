@@ -113,8 +113,6 @@
 {
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-        /* Always set the map height explicitly to define the size of the div
-           * element that contains the map. */
         #map {
             height: 400px;
             width: 100%;
@@ -125,50 +123,33 @@
     <div class="col-md-6">
         <div id="map"></div>
         <script>
-            
 
-            @*var jsonMaybe = axios.get('https://maps.googleapis.com/maps/api/geocode/json?', {
-                params: {
-                    address: '9425 Sunset Blvd 90210',
-                    key: '@ViewBag.geocodeKey'
-                }
-            });*@
-            @*
-                .then(function(response){
-                
-                })
-            *@
-            geocode('@ViewBag.addressAndZipCode')
-            function geocode(location) {
-                axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-                    params: {
-                        address: location,
-                        key: '@ViewBag.geocodeKey'
-                    }
-                })
-                    .then(function (response) {
-                        console.log("Begin response");
-                        console.log(response);
-                        console.log("End response");
-                    })
-                    .catch(function (error) {
-                        console.log(error);
+            @*var string = "@ViewBag.geocodeCall";
+            var splitstring = string.split('amp;');
+            _string = splitstring[0] + splitstring[1];*@
+
+            // Do it this way because javascript turns & into &amp; sometimes. It didn't do that for the maps API call though.
+            var geocodeAPICall = "";
+            var apiUrl = "@ViewBag.geocodeBase";
+            var address = "@ViewBag.addressAndZipcode";
+            var key = "@ViewBag.geocodeKey";
+            geocodeAPICall = apiUrl + address + "&key=" + key;
+            
+            var latAndLng
+            function geocode() {
+                axios.get(geocodeAPICall)
+                    .then((response) => {
+                        latAndLng = response.data.results[0].geometry.location;
+                        console.log(latAndLng);
+
+                        initMap();
                     });
             }
 
-            var jsonMaybe = axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-                    params: {
-                        address: '@ViewBag.addressAndZipCode',
-                        key: '@ViewBag.geocodeKey'
-                    }
-                })
-            console.log("Begin maybe");
-            console.log(jsonMaybe);
-            console.log("End maybe");
             function initMap() {
                 var location = {
-                    lat: -34.397,
-                    lng: 150.644
+                    lat: latAndLng.lat,
+                    lng: latAndLng.lng
                 }
 
                 var options = {
@@ -184,18 +165,23 @@
                 });
 
                 var infoWindow = new google.maps.InfoWindow({
-                    content: '<h1>Hello World!</h1>'
+                    content: '@ViewBag.addressAndZipcode'
                 });
 
                 marker.addListener('click', function () {
                     infoWindow.open(map, marker);
                 });
             }
+
+            function mapFunction() {
+                geocode();
+            }
         </script>
 
         <script src="@ViewBag.mapsCall"
                 async defer></script>
     </div>
-}
 
+
+}
 

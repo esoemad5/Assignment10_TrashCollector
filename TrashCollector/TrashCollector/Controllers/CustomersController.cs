@@ -35,10 +35,25 @@ namespace TrashCollector.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.mapsKey = APIKeys.mapsKey;
+            /* https://maps.googleapis.com/maps/api/js?key=OUR_API_KEY_GOES_HERE&callback=CALLBACK_FUNCTION
+             * The callback at the end can be anything, I changed it to mapFunction
+             * Javascript does NOT change the '&' to '&amp;' thankfully. not sure what to do if that becomes the case.
+             */
             ViewBag.mapsCall = APIKeys.mapsCall;
+
+
+            /* Full geocode API call is: geocodeBase + Address + "&key=YOUR_API_KEY_GOES_HERE"
+             * https://maps.googleapis.com/maps/api/geocode/json?address=ADDRESS_GOES_HERE&key=YOUR_API_KEY_GOES_HERE
+             * 
+             * This doesnt work because javascript changes the '&' to '&amp;'
+             * ViewBag.geocodeCall = APIKeys.geocodeBase + customer.Address + " " + customer.Zipcode + "&key=" + APIKeys.geocodeKey;
+             */
+
+            ViewBag.geocodeBase = APIKeys.geocodeBase;
+            ViewBag.addressAndZipcode = customer.Address + " " + customer.Zipcode;
             ViewBag.geocodeKey = APIKeys.geocodeKey;
-            ViewBag.addressAndZipCode = customer.Address + " " + customer.Zipcode;
+
+
             return View("Details", customer);
         }
 
