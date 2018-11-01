@@ -35,7 +35,7 @@ namespace TrashCollector.Controllers
                 return HttpNotFound();
             }
 
-            /* https://maps.googleapis.com/maps/api/js?key=OUR_API_KEY_GOES_HERE&callback=CALLBACK_FUNCTION
+            /* https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_GOES_HERE&callback=CALLBACK_FUNCTION
              * The callback at the end can be anything, I changed it to mapFunction
              * Javascript does NOT change the '&' to '&amp;' thankfully. not sure what to do if that becomes the case.
              */

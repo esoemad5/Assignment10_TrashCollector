@@ -29,16 +29,16 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Employees
-        //public ActionResult Index()
-        //{
-        //    string currentUserID = User.Identity.GetUserId();
-        //    Employee currentEmployee = db.Employees.Where(e => e.UserID == currentUserID).Single();
-        //    return View(db.Customers.Where(c=> c.Zipcode == currentEmployee.AssignedZipcode).ToList());
-        //}
-        
-        public ActionResult Index(string day) // This feels very anti-Polymorphism (monomorphism?)
+        public ActionResult Index()
         {
-            
+            string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
+
+            return View("Index", GetListOfCustomers(currentDayAsAString));
+        }
+        [HttpPost]
+        public ActionResult Index([Bind(Include = "day")]string day) // This feels very anti-Polymorphism (monomorphism?)
+        {
+
 
             //Test();
 
@@ -48,9 +48,10 @@ namespace TrashCollector.Controllers
             //}
 
             //DateTime firstSunday = new DateTime(1753, 1, 7); An idea I decided not to use
-            string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
 
-            return View("Index", GetListOfCustomers(currentDayAsAString));
+            //string currentDayAsAString = DateTime.Now.DayOfWeek.ToString();
+
+            return View("Index", GetListOfCustomers(day));
         }
 
         private List<Customer> GetListOfCustomers (string day)
