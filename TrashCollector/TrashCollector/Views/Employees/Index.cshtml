@@ -139,15 +139,15 @@
             _string = splitstring[0] + splitstring[1];*@
 
             // Do it this way because javascript turns & into &amp; sometimes. It didn't do that for the maps API call though.
-            var geocodeAPICall = "";
-            var apiUrl = "@ViewBag.geocodeBase";
-            var address = "@ViewBag.Zipcode";
-            var key = "@ViewBag.geocodeKey";
-            geocodeAPICall = apiUrl + address + "&key=" + key;
+            //var geocodeAPICall = "";
+            //var apiUrl = "@ViewBag.geocodeBase";
+            var _address = "@ViewBag.Zipcode";
+            var _key = "@ViewBag.geocodeKey";
+            //geocodeAPICall = apiUrl + _address + "&key=" + _key;
 
             var latAndLng
             function geocode() {
-                axios.get(geocodeAPICall)
+                axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params: {address:_address, key:_key}})
                     .then((response) => {
                         latAndLng = response.data.results[0].geometry.location;
                         console.log(latAndLng);
@@ -170,20 +170,25 @@
                 var map = new google.maps.Map(document.getElementById('map'), options);
 
                 
+                @*@foreach(var customer in Model)
+                {
+                    var _marker = new google.maps.Marker({
+                        position: customer.
+                    })
+                }*@
 
-
-                @*var marker = new google.maps.Marker({
+                var marker = new google.maps.Marker({
                 position: location,
                 map: map
                 });
 
                 var infoWindow = new google.maps.InfoWindow({
-                    content: '@ViewBag.addressAndZipcode'
+                    content: '@ViewBag.Zipcode'
                 });
 
                 marker.addListener('click', function () {
                     infoWindow.open(map, marker);
-                });*@
+                });
             }
 
             function mapFunction() {
