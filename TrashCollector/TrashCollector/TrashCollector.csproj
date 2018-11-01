@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201810262022562_Added property to Customer LastTimeTrashWasPickedUp.Designer.cs">
       <DependentUpon>201810262022562_Added property to Customer LastTimeTrashWasPickedUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811011816003_Added Latitude, Longitude, updateLatitudeAndLongitudeAsync%28%29, and some private things to Customer.cs %28model%29.cs" />
+    <Compile Include="Migrations\201811011816003_Added Latitude, Longitude, updateLatitudeAndLongitudeAsync%28%29, and some private things to Customer.cs %28model%29.Designer.cs">
+      <DependentUpon>201811011816003_Added Latitude, Longitude, updateLatitudeAndLongitudeAsync%28%29, and some private things to Customer.cs %28model%29.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -340,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810262022562_Added property to Customer LastTimeTrashWasPickedUp.resx">
       <DependentUpon>201810262022562_Added property to Customer LastTimeTrashWasPickedUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811011816003_Added Latitude, Longitude, updateLatitudeAndLongitudeAsync%28%29, and some private things to Customer.cs %28model%29.resx">
+      <DependentUpon>201811011816003_Added Latitude, Longitude, updateLatitudeAndLongitudeAsync%28%29, and some private things to Customer.cs %28model%29.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
